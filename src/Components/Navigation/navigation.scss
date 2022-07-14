@@ -1,0 +1,48 @@
+nav {
+    width: 25%;
+    position: sticky;
+    display: block;
+    //flex-basis: 200px;
+    top: 100px;
+    max-width: 200px;
+    height: fit-content;
+    background-color: rgba(239, 239, 239, 0.971);
+    border-radius: 8px;
+    box-shadow: 1px 1px 3px 1px rgba(34, 34, 34, 0.291);
+    h2 {
+        text-align: center;
+        border-bottom: 1px solid #222;
+    }
+}
+.shops-list {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.shop-item {
+    list-style: none;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.shop-item > button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.5s;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.shop-item > button:hover {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+}
+
+.active {
+    background-color: #222 !important;
+    color: rgb(255, 255, 255);
+}

@@ -1,0 +1,10 @@
+.discounts-wrapper {
+    width: 90%;
+    margin: 50px auto;
+    .discounts-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+    }
+}
