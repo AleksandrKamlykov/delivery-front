@@ -1,20 +1,37 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { DiscountItem } from '../../Components/DiscountItem/DiscountItem';
+import { Spiner } from '../../Components/Shared/spiner/spiner';
+import { useHttp } from '../../hooks/useHttp';
 import { IDiscount } from '../../Interfaces/interfaces';
 import './discount.scss';
 
 export const Discount: FC = () => {
 
-    const discounts: IDiscount[] = useSelector((state: any) => state.discounts);
+    const { request, loading } = useHttp();
+
+    //const discounts: IDiscount[] = useSelector((state: any) => state.discounts);
+    const [discounts, setDiscount] = useState<IDiscount[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            const response = await request('https://elif-tech-back.herokuapp.com/discounts');
+            setDiscount(response);
+        })();
+
+    }, []);
+
 
     return (<section className='discounts-wrapper'>
         <Helmet><title>Delivery | discounts</title></Helmet>
         <h2 style={{ textAlign: 'center' }}>Discounts code for you!</h2>
         <div className='discounts-list'>
             {
-                discounts.length > 0 && discounts.map((discount: IDiscount) => <DiscountItem key={discount.code} discount={discount} />)
+                discounts.length > 0 && !loading && discounts.map((discount: IDiscount) => <DiscountItem key={discount.code} discount={discount} />)
+            }
+            {
+                loading && <Spiner />
             }
         </div>
     </section>);

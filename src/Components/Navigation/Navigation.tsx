@@ -1,16 +1,29 @@
-import React, { FC, memo, useCallback, useEffect } from 'react';
+import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './navigation.scss';
-import shops from '../../shops.json';
+
 import { useSearchParams } from 'react-router-dom';
+import { useHttp } from '../../hooks/useHttp';
 
 export const Navigation: FC = memo(() => {
 
     const [searchParam, setSearchParam] = useSearchParams();
+    const { request, loading } = useHttp();
+
+    const [shops, setShops] = useState<any[]>([]);
 
     const dispatch = useDispatch();
     const { shopId } = useSelector((state: any) => state.shop);
     const cart = useSelector((state: any) => state.cart);
+
+    useEffect(() => {
+
+        (async () => {
+            const response = await request('https://elif-tech-back.herokuapp.com/shops');
+            setShops(response);
+        })();
+
+    }, []);
 
     const chooseShop = useCallback((id: number) => {
         setSearchParam({ 'shopId': id.toString() });

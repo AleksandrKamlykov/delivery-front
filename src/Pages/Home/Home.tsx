@@ -3,13 +3,16 @@ import { CategoryItem } from '../../Components/CategoryItem/CategoryItem';
 import { Navigation } from '../../Components/Navigation/Navigation';
 import './home.scss';
 import { useDispatch, useSelector } from "react-redux";
-import { food } from '../../foods';
 import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { useHttp } from '../../hooks/useHttp';
+import { Spiner } from '../../Components/Shared/spiner/spiner';
 
 export const Home: FC = () => {
-
+    const { request, loading } = useHttp();
     const dispatch = useDispatch();
+
+    const [products, setProducts] = useState<any[]>([]);
 
     const { shopId } = useSelector((state: any) => state.shop);
     const [searchParam, setSearchParam] = useSearchParams();
@@ -23,11 +26,24 @@ export const Home: FC = () => {
     const shopIdSearch: string | null = searchParam.get('shopId');
 
 
-    function getData() {
+    useEffect(() => {
+        (async () => {
+            const response = await request('https://elif-tech-back.herokuapp.com/products');
+
+            getData(response);
+        })();
+        if (shopIdSearch && !shopId) {
+            dispatch({ type: 'CHOOSE', payload: +shopIdSearch });
+
+
+        }
+    }, []);
+
+    function getData(dataArr: any[]) {
         const categoriesSet = new Set();
         const data: any = {};
 
-        food.forEach((food: any) => {
+        dataArr.forEach((food: any) => {
             const { category } = food;
             categoriesSet.add(category);
 
@@ -47,13 +63,9 @@ export const Home: FC = () => {
     }
 
     useEffect(() => {
-        getData();
-
-        if (shopIdSearch && !shopId) {
-            dispatch({ type: 'CHOOSE', payload: +shopIdSearch });
 
 
-        }
+
 
 
     }, []);
@@ -93,7 +105,7 @@ export const Home: FC = () => {
         <div style={{ width: '100%' }}>
 
             {
-                typeof shopId === 'number' && <>
+                typeof shopId === 'number' && !loading && <>
 
                     <ul className='filter-list'>
                         {
@@ -109,6 +121,12 @@ export const Home: FC = () => {
                         categoryFilter(Object.values(foods)).map(({ foods, name }: any) => <CategoryItem key={name} foodArr={foods} title={name} />)
                     }
                 </>
+            }
+
+            {
+                loading && <div className='loader'>
+                    <Spiner />
+                </div>
             }
 
             {
