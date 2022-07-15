@@ -32,16 +32,6 @@
     gap: 30px;
     align-items: center;
 }
-@keyframes showe {
-    0% {
-        height: 1px;
-        opacity: 0.3;
-    }
-    100% {
-        height: fit-content;
-        opacity: 1;
-    }
-}
 
 @keyframes slide-top {
     0% {
@@ -49,5 +39,17 @@
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 1200px) {
+    .category-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 840px) {
+    .category-items {
+        grid-template-columns: 1fr;
+        justify-content: center;
     }
 }

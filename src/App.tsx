@@ -9,13 +9,14 @@ import { store } from './Redux/store';
 
 function App() {
   return (
-    <Provider store={store}>
+    <>
       <Header />
       <div className='layout'>
         <Router />
 
       </div>
-    </Provider>
+    </>
+
   );
 }
 

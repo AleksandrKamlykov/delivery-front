@@ -12,6 +12,7 @@
     flex-direction: column;
     background-color: #222;
     color: #fff;
+    margin: auto;
     img {
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
@@ -60,4 +61,12 @@
     background-color: #222 !important;
     color: rgb(255, 222, 6) !important;
     border: 1px solid rgb(255, 222, 6) !important;
+}
+
+@media (max-width: 840px) {
+    .good-wrapper {
+        min-width: 200px;
+        max-width: 80%;
+        height: fit-content;
+    }
 }

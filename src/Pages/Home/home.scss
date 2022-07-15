@@ -14,14 +14,14 @@
 .filter-list {
     width: 100%;
     padding: 0;
-    display: block;
     position: sticky;
     top: 60px;
     z-index: 2;
     background-color: rgb(216, 216, 216);
     //border-bottom: 2px solid #222;
     display: flex;
-    height: 40px;
+    flex-wrap: wrap;
+    height: fit-content;
     align-items: center;
     gap: 20px;
     padding-bottom: 5px;

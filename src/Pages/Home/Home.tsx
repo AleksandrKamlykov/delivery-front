@@ -84,7 +84,11 @@ export const Home: FC = () => {
 
 
     const addFilter = (value: string) => {
+
         setFilters((prev: string[]) => [...prev, value]);
+
+        if (searchParam.get('filters')?.includes(value)) return;
+
         setSearchParam({ 'shopId': shopId, 'filters': [...filters, value].join('-') });
     };
     const categoryFilter = (data: any[]): any[] => {
@@ -102,7 +106,7 @@ export const Home: FC = () => {
         <Helmet ><title>Delivery | Home</title></Helmet>
 
         <Navigation />
-        <div style={{ width: '100%' }}>
+        <div style={{ width: 'fit-content' }}>
 
             {
                 typeof shopId === 'number' && !loading && <>

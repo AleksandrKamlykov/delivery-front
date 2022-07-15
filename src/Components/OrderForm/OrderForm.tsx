@@ -1,20 +1,49 @@
 import React, { FC, memo, useRef, useState } from 'react';
 import './orderForm.scss';
 import ReCAPTCHA from "react-google-recaptcha";
-import { useSelector } from 'react-redux';
 import { IDiscount } from '../../Interfaces/interfaces';
+import { useHttp } from '../../hooks/useHttp';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
+import { MiniLoader } from '../Shared/miniLoader/miniLoader';
 
 export const OrderForm: FC<any> = memo(({ total }) => {
 
-    const discountsArr: IDiscount[] = useSelector((state: any) => state.discounts);
+    const [searchParams, setSearchparams] = useSearchParams();
+    const cart = useSelector((state: any) => state.cart);
+    const dispatch = useDispatch();
+
+    const { request, loading } = useHttp();
 
     const [isVerif, setIsVerif] = useState<boolean>(false);
     const [discountInput, setDiscountInput] = useState<string>('');
     const [isDiscount, setIsdiscount] = useState<IDiscount | undefined>(undefined);
+    const [finishOrder, setFinishOrder] = useState<any>(undefined);
 
-    const ref = useRef<any>(null);
+    const [formData, setFormData] = useState<any>({});
 
-    const onSubmit = (e: any) => {
+    const refCaptcha = useRef<any>(null);
+    const refForm = useRef<HTMLFormElement>(null);
+
+    const onSubmit = async (event: any) => {
+        event.preventDefault();
+
+        const body = {
+            ...formData,
+            total: total,
+            discount: {
+                code: disableInput,
+                precent: isDiscount?.precent
+            },
+            order: cart
+
+
+        };
+        const response = await request('https://elif-tech-back.herokuapp.com/create-order', 'POST', body);
+
+        setSearchparams({ 'order': response.name });
+        dispatch({ type: 'CLEAR_CART' });
+        setFinishOrder(response);
 
     };
 
@@ -27,14 +56,26 @@ export const OrderForm: FC<any> = memo(({ total }) => {
 
         const value: string = event.target.value;
 
-        const isD = discountsArr.find((dicount: IDiscount) => dicount.code === value);
-        if (isD) {
-            setIsdiscount(isD);
+        setDiscountInput(value);
+    };
+
+    const formHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const key: string = event.target.name;
+        const value: string = event.target.value;
+
+        setFormData((prev: any) => ({ ...prev, [key]: value }));
+    };
+
+    const checkDiscount = async () => {
+        const discount = await request(`https://elif-tech-back.herokuapp.com/check-discount?key=${discountInput}`);
+
+        if (discount.ok) {
+            setIsdiscount(discount);
         } else {
-            setIsdiscount(undefined);
+            setDiscountInput(discount.message);
         }
 
-        setDiscountInput(value);
+
     };
 
     const disableInput: boolean = total === 0;
@@ -42,27 +83,38 @@ export const OrderForm: FC<any> = memo(({ total }) => {
 
     return (<div className='form-wrapper'>
         <h2>Your contacts</h2>
-        <form action="/">
+        <form ref={refForm}  >
 
-            <input disabled={disableInput} placeholder='Name' type='text' />
-            <input disabled={disableInput} placeholder='Email' type='text' />
-            <input disabled={disableInput} placeholder='Phone' type='text' />
-            <input disabled={disableInput} placeholder='Address' type='text' />
-            <div className='form-menu'>
-                <input value={discountInput} onChange={discountHandler} className={isDiscount ? 'is-discount' : ''} disabled={disableInput} type="text" placeholder='Promocode' />
-                <div>
-                    <span>Total price: </span>
-                    <strong>{totalPrice} uah.</strong>
-                </div>
-            </div>
-            <button onClick={onSubmit} disabled={!isVerif || disableInput} type='submit'>Submit</button>
-            <ReCAPTCHA
-                ref={ref}
-                sitekey="6LfLO-4gAAAAANoJpQ6Ab9EpAKA-GDmt6cdhaxWn"
-                // sitekey="6LezLe4gAAAAAKJiM7htth5IsqWZ45a5OWGaQU_P"
-                onChange={onChange}
-            />
+            <input required onChange={formHandler} disabled={disableInput} name="name" placeholder='Name' type='text' />
+            <input required onChange={formHandler} disabled={disableInput} name="email" placeholder='Email' type='text' />
+            <input required onChange={formHandler} disabled={disableInput} name="phone" placeholder='Phone' type='text' />
+            <input required onChange={formHandler} disabled={disableInput} name="address" placeholder='Address' type='text' />
         </form>
+        <div className='form-menu'>
+            <input value={discountInput} onChange={discountHandler} className={isDiscount ? 'is-discount' : ''} disabled={disableInput} type="text" placeholder='Promocode' />
+            <button onClick={checkDiscount} className='checker-btn'>Check discount</button>
+
+
+        </div >
+        <div className='form-menu'>
+            <div style={{ width: '100%' }}>
+                <span>Total price: </span>
+                {
+                    isDiscount && <span> - {isDiscount.precent}% : </span>
+                }
+                <strong>{totalPrice} uah.</strong>
+            </div>
+
+            <button onClick={onSubmit} style={{ width: '100%' }} disabled={!isVerif || disableInput} type='submit'>Submit {loading && <MiniLoader />}</button>
+
+        </div>
+        <ReCAPTCHA
+            ref={refCaptcha}
+            sitekey="6LfLO-4gAAAAANoJpQ6Ab9EpAKA-GDmt6cdhaxWn"
+            // sitekey="6LezLe4gAAAAAKJiM7htth5IsqWZ45a5OWGaQU_P"
+            onChange={onChange}
+        />
+
     </div>);
 });
 

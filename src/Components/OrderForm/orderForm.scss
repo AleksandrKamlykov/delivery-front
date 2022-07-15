@@ -1,4 +1,5 @@
 .form-wrapper {
+    min-width: 320px;
     background-color: rgb(184, 184, 184);
     border-radius: 8px;
     box-shadow: 1px 1px 3px 2px rgba(34, 34, 34, 0.291);
@@ -24,18 +25,32 @@
             display: block;
             box-sizing: border-box;
         }
-        .form-menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            input {
-                width: 30%;
-            }
-            .is-discount {
-                background-color: #0a0;
-                color: #fff;
-            }
+    }
+    .form-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 10px 0;
+        input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #222;
+            background-color: #eee;
+            display: block;
+            box-sizing: border-box;
+            width: 30%;
+        }
+        .is-discount {
+            background-color: #0a0;
+            color: #fff;
+        }
+        .checker-btn {
+            background-color: #00a;
+            color: #fff;
+            padding: 10px;
+            width: fit-content;
+            font-size: 0.8rem;
         }
         button {
             width: 100%;
