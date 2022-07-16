@@ -6,6 +6,7 @@ import { useHttp } from '../../hooks/useHttp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { MiniLoader } from '../Shared/miniLoader/miniLoader';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export const OrderForm: FC<any> = ({ total }) => {
 
@@ -69,6 +70,7 @@ export const OrderForm: FC<any> = ({ total }) => {
             setIsdiscount(discount);
         } else {
             setDiscountInput(discount.message);
+            setIsdiscount(undefined);
         }
 
 
@@ -77,18 +79,6 @@ export const OrderForm: FC<any> = ({ total }) => {
     const disableInput: boolean = total === 0;
     const totalPrice = Math.floor(total / 100 * (100 - (isDiscount?.precent ?? 0)));
 
-
-
-    const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
-
-
-    const defaultProps = {
-        center: {
-            lat: 10.99835602,
-            lng: 77.01502627
-        },
-        zoom: 11
-    };
 
     return (<div className='form-wrapper'>
         <h2>Your contacts</h2>
@@ -117,10 +107,7 @@ export const OrderForm: FC<any> = ({ total }) => {
             <button onClick={onSubmit} style={{ width: '100%' }} disabled={!isVerif || disableInput} type='submit'>Submit {loading && <MiniLoader />}</button>
 
         </div>
-        <ReCAPTCHA
-            sitekey="6LfLO-4gAAAAANoJpQ6Ab9EpAKA-GDmt6cdhaxWn"
-            onChange={onChange}
-        />
+        <GoogleReCaptcha onVerify={onChange} />
 
     </div>);
 };

@@ -8,7 +8,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './Redux/store';
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
-
+import {
+  GoogleReCaptchaProvider,
+} from 'react-google-recaptcha-v3';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root')
@@ -17,9 +19,11 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <GoogleReCaptchaProvider reCaptchaKey="6LezLe4gAAAAAKJiM7htth5IsqWZ45a5OWGaQU_P">
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </GoogleReCaptchaProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>
