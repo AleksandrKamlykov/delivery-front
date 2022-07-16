@@ -1,7 +1,7 @@
 import React, { FC, memo, useRef, useState } from 'react';
 import './orderForm.scss';
 import ReCAPTCHA from "react-google-recaptcha";
-import { IDiscount } from '../../Interfaces/interfaces';
+import { IDiscount, IProduct } from '../../Interfaces/interfaces';
 import { useHttp } from '../../hooks/useHttp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { MiniLoader } from '../Shared/miniLoader/miniLoader';
 export const OrderForm: FC<any> = memo(({ total }) => {
 
     const [searchParams, setSearchparams] = useSearchParams();
-    const cart = useSelector((state: any) => state.cart);
+    const cart: IProduct = useSelector((state: any) => state.cart);
     const dispatch = useDispatch();
 
     const { request, loading } = useHttp();
@@ -18,12 +18,9 @@ export const OrderForm: FC<any> = memo(({ total }) => {
     const [isVerif, setIsVerif] = useState<boolean>(false);
     const [discountInput, setDiscountInput] = useState<string>('');
     const [isDiscount, setIsdiscount] = useState<IDiscount | undefined>(undefined);
-    const [finishOrder, setFinishOrder] = useState<any>(undefined);
 
     const [formData, setFormData] = useState<any>({});
 
-    const refCaptcha = useRef<any>(null);
-    const refForm = useRef<HTMLFormElement>(null);
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
@@ -43,7 +40,6 @@ export const OrderForm: FC<any> = memo(({ total }) => {
 
         setSearchparams({ 'order': response.name });
         dispatch({ type: 'CLEAR_CART' });
-        setFinishOrder(response);
 
     };
 
@@ -81,9 +77,22 @@ export const OrderForm: FC<any> = memo(({ total }) => {
     const disableInput: boolean = total === 0;
     const totalPrice = Math.floor(total / 100 * (100 - (isDiscount?.precent ?? 0)));
 
+
+
+    const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
+
+
+    const defaultProps = {
+        center: {
+            lat: 10.99835602,
+            lng: 77.01502627
+        },
+        zoom: 11
+    };
+
     return (<div className='form-wrapper'>
         <h2>Your contacts</h2>
-        <form ref={refForm}  >
+        <form  >
 
             <input required onChange={formHandler} disabled={disableInput} name="name" placeholder='Name' type='text' />
             <input required onChange={formHandler} disabled={disableInput} name="email" placeholder='Email' type='text' />
@@ -109,9 +118,7 @@ export const OrderForm: FC<any> = memo(({ total }) => {
 
         </div>
         <ReCAPTCHA
-            ref={refCaptcha}
             sitekey="6LfLO-4gAAAAANoJpQ6Ab9EpAKA-GDmt6cdhaxWn"
-            // sitekey="6LezLe4gAAAAAKJiM7htth5IsqWZ45a5OWGaQU_P"
             onChange={onChange}
         />
 

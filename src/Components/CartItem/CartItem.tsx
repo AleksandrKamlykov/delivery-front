@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import { IProduct } from '../../Interfaces/interfaces';
 import './cart.item.scss';
 
-export const CartItem: FC<any> = ({ product }: any) => {
+export const CartItem: FC<{ product: IProduct; }> = memo(({ product }: { product: IProduct; }) => {
+
     const dispatch = useDispatch();
-    const { id, name, image, count, price, category } = product;
+    const { id, name, image, count, price } = product;
 
     const plusCount = (id: number) => {
         dispatch({ type: 'PLUS_COUNT', payload: id });
@@ -30,4 +31,4 @@ export const CartItem: FC<any> = ({ product }: any) => {
             <p><strong>Price: {price * count} uah.</strong></p>
         </div>
     </div>);
-};
+});

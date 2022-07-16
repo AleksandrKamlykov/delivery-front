@@ -4,7 +4,7 @@ import { IProduct } from '../../Interfaces/interfaces';
 import { CartItem } from '../CartItem/CartItem';
 import './cart.list.scss';
 
-export const CartList: FC<any> = memo(({ total }: any) => {
+export const CartList: FC<{ total: number; }> = memo(({ total }: { total: number; }) => {
 
     const cart: IProduct[] = useSelector((state: any) => state.cart);
 

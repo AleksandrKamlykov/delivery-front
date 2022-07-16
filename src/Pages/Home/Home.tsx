@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import { CategoryItem } from '../../Components/CategoryItem/CategoryItem';
 import { Navigation } from '../../Components/Navigation/Navigation';
 import './home.scss';
@@ -8,11 +8,10 @@ import { Helmet } from 'react-helmet';
 import { useHttp } from '../../hooks/useHttp';
 import { Spiner } from '../../Components/Shared/spiner/spiner';
 
-export const Home: FC = () => {
+export const Home: FC = memo(() => {
+
     const { request, loading } = useHttp();
     const dispatch = useDispatch();
-
-    const [products, setProducts] = useState<any[]>([]);
 
     const { shopId } = useSelector((state: any) => state.shop);
     const [searchParam, setSearchParam] = useSearchParams();
@@ -34,8 +33,6 @@ export const Home: FC = () => {
         })();
         if (shopIdSearch && !shopId) {
             dispatch({ type: 'CHOOSE', payload: +shopIdSearch });
-
-
         }
     }, []);
 
@@ -62,14 +59,6 @@ export const Home: FC = () => {
         setFoods(data);
     }
 
-    useEffect(() => {
-
-
-
-
-
-    }, []);
-
 
     useEffect(() => {
         if (filtersSearch && shopIdSearch) {
@@ -91,6 +80,7 @@ export const Home: FC = () => {
 
         setSearchParam({ 'shopId': shopId, 'filters': [...filters, value].join('-') });
     };
+
     const categoryFilter = (data: any[]): any[] => {
 
         if (filters.length === 0) return data;
@@ -127,11 +117,7 @@ export const Home: FC = () => {
                 </>
             }
 
-            {
-                loading && <div className='loader'>
-                    <Spiner />
-                </div>
-            }
+
 
             {
                 typeof shopId !== 'number' && <>
@@ -139,5 +125,11 @@ export const Home: FC = () => {
                 </>
             }
         </div>
+
+        {
+            loading && <div className='loader'>
+                <Spiner />
+            </div>
+        }
     </section>);
-};
+});

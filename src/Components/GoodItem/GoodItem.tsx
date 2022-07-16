@@ -1,8 +1,9 @@
-import React, { FC, memo, useCallback } from 'react';
+import React, { FC, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './goodItem.scss';
 
 export const GoodItem: FC<any> = memo(({ good }: any) => {
+
     const { price, name, description, image } = good;
 
     const dispatch = useDispatch();
@@ -18,7 +19,6 @@ export const GoodItem: FC<any> = memo(({ good }: any) => {
         } else {
             dispatch({ type: 'ADD_CART', payload: { ...good, id: good.id, count: 1 } });
         }
-
 
     };
 

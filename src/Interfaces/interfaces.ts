@@ -17,3 +17,14 @@ export interface IDiscount {
     precent: number;
     code: string;
 }
+
+export interface IOrder {
+    name: string;
+    phone: string;
+    address: string;
+    total: number;
+    emai: string;
+    discount: IDiscount;
+    order: IProduct[];
+
+}

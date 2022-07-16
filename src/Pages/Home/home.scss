@@ -1,7 +1,7 @@
 .home-wrapper {
     // display: grid;
     // grid-template-columns: 1fr 85%;
-    min-height: 80%;
+    min-height: 80vh;
     display: flex;
     gap: 50px;
     width: 80%;
@@ -56,7 +56,7 @@
 }
 
 .loader {
-    height: calc(100vh - 20%);
+    height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;

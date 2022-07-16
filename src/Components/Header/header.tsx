@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import './header.scss';
-//import cartIcon from '../../img/icons8-shopping_cart.png';
 
-export const Header: FC = () => {
+export const Header: FC = memo(() => {
 
     const cart: any[] = useSelector((state: any) => state.cart);
 
@@ -15,10 +14,14 @@ export const Header: FC = () => {
                 <h1 >Delivery</h1>
             </Link>
 
-
             <nav className='nav-menu'>
                 <ul>
+                    <li>
+                        <NavLink className={'cart-link'} to={'/orders'}>
 
+                            <span>Orders</span>
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink className={'cart-link'} to={'/discount'}>
 
@@ -39,4 +42,4 @@ export const Header: FC = () => {
             </nav>
         </header>
     </>);
-};
+});

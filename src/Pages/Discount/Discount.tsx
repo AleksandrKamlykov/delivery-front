@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useSelector } from 'react-redux';
 import { DiscountItem } from '../../Components/DiscountItem/DiscountItem';
 import { Spiner } from '../../Components/Shared/spiner/spiner';
 import { useHttp } from '../../hooks/useHttp';
@@ -11,7 +10,6 @@ export const Discount: FC = () => {
 
     const { request, loading } = useHttp();
 
-    //const discounts: IDiscount[] = useSelector((state: any) => state.discounts);
     const [discounts, setDiscount] = useState<IDiscount[]>([]);
 
     useEffect(() => {

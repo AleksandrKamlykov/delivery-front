@@ -2,7 +2,8 @@
     h2 {
         text-align: center;
     }
-    width: 100%;
+    width: fit-content;
+    height: fit-content;
     //padding: 10px;
     border: 1px solid #222;
     border-radius: 6px;
@@ -14,12 +15,14 @@
         width: 100%;
     }
     div {
+        height: auto;
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: center;
         p {
             font-size: 2rem;
+            margin: auto;
             strong {
                 font-size: 1.1rem;
             }
@@ -50,3 +53,9 @@
         }
     }
 }
+
+// @media (max-width: 1600px) {
+//     .cart-item-wrapper {
+//         grid-template-columns: 60% 40%;
+//     }
+// }

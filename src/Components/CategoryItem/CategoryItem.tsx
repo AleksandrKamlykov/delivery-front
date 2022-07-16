@@ -1,11 +1,10 @@
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, memo } from 'react';
 import { GoodItem } from '../GoodItem/GoodItem';
 import './category.scss';
 
 
 
 export const CategoryItem: FC<any> = memo(({ foodArr, title }: any) => {
-
 
 
     return (<div className='category-wrapper'>
