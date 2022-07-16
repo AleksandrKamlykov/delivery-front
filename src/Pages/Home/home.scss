@@ -62,3 +62,10 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 510px) {
+    .home-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+}

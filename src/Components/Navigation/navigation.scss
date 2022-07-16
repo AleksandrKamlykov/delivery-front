@@ -47,3 +47,11 @@ nav {
     background-color: #222 !important;
     color: rgb(255, 255, 255);
 }
+
+@media (max-width: 510px) {
+    .shops-nav {
+        width: 80%;
+        position: relative;
+        top: 0px;
+    }
+}

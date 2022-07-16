@@ -31,7 +31,7 @@ export const Navigation: FC = memo(() => {
     }, []);
 
     return (<>
-        <nav>
+        <nav className='shops-nav'>
             <h2>Shops</h2>
             <ul className='shops-list'>
                 {

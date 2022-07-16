@@ -108,7 +108,7 @@ export const Home: FC = memo(() => {
                             ))
                         }
 
-                        <li key={'all'} className="filter-item"><button onClick={clearFilters}>Все</button></li>
+                        <li key={'all'} className="filter-item"><button onClick={clearFilters}>Clear</button></li>
                     </ul>
 
                     {
