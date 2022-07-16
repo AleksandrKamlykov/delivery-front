@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { MiniLoader } from '../Shared/miniLoader/miniLoader';
 
-export const OrderForm: FC<any> = memo(({ total }) => {
+export const OrderForm: FC<any> = ({ total }) => {
 
     const [searchParams, setSearchparams] = useSearchParams();
     const cart: IProduct = useSelector((state: any) => state.cart);
@@ -123,5 +123,5 @@ export const OrderForm: FC<any> = memo(({ total }) => {
         />
 
     </div>);
-});
+};
 
